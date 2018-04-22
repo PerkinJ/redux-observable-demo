@@ -99,9 +99,42 @@ module.exports = {
       app: path.resolve(__dirname, 'src/app/'),
     }
   },
+  optimization: {
+    splitChunks: {
+      name: true,
+      cacheGroups: {
+        commons: {
+          chunks: 'initial',
+          minChunks: 2
+        },
+        vendors: {
+          test: /[\\/]node_modules[\\/]/,
+          chunks: 'all',
+          priority: -10
+        }
+      }
+    },
+    runtimeChunk: true
+  },
   plugins: [
     cssPlugin,
     htmlPlugin,
     clearPlugin
-  ]
+  ],
+  // 配置此静态文件服务器，可以用来预览打包后项目
+  devServer: {
+    contentBase: sourcePath,
+    hot: true,
+    inline: true,
+    historyApiFallback: {
+      disableDotRule: true
+    },
+    stats: 'minimal'
+  },
+  node: {
+    // workaround for webpack-dev-server issue
+    // https://github.com/webpack/webpack-dev-server/issues/60#issuecomment-103411179
+    fs: 'empty',
+    net: 'empty'
+  }
 };
