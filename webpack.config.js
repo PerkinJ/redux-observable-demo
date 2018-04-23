@@ -114,6 +114,7 @@ module.exports = {
         }
       }
     },
+    // adds an additonal chunk to each entrypoint containing only the runtime.
     runtimeChunk: true
   },
   plugins: [
